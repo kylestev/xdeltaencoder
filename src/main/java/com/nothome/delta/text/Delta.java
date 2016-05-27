@@ -51,8 +51,11 @@ import java.nio.CharBuffer;
  * Class for computing deltas against a source.
  * The source file is read by blocks and a hash is computed per block.
  * Then the target is scanned for matching blocks.
- * <p/>
+ * <p>
  * Essentially a duplicate of com.nothome.delta.Delta for character streams.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class Delta {
     
@@ -79,6 +82,9 @@ public class Delta {
     private TargetState target;
     private DiffTextWriter output;
     
+    /**
+     * <p>Constructor for Delta.</p>
+     */
     public Delta() {
         setChunkSize(DEFAULT_CHUNK_SIZE);
     }
@@ -87,8 +93,8 @@ public class Delta {
      * Sets the chunk size used.
      * Larger chunks are faster and use less memory, but create larger patches
      * as well.
-     * 
-     * @param size
+     *
+     * @param size a int.
      */
     public void setChunkSize(int size) {
         if (size <= 0)
@@ -98,6 +104,11 @@ public class Delta {
     
     /**
      * Compares the source bytes with target bytes, writing to output.
+     *
+     * @param source a {@link java.lang.CharSequence} object.
+     * @param target a {@link java.lang.CharSequence} object.
+     * @param output a {@link java.io.Writer} object.
+     * @throws java.io.IOException if any.
      */
     public void compute(CharSequence source, CharSequence target, Writer output)
     throws IOException {
@@ -108,6 +119,11 @@ public class Delta {
     
     /**
      * Compares the source bytes with target bytes, returning differences.
+     *
+     * @param source a {@link java.lang.CharSequence} object.
+     * @param target a {@link java.lang.CharSequence} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.io.IOException if any.
      */
     public String compute(CharSequence source, CharSequence target)
     throws IOException {
@@ -118,11 +134,11 @@ public class Delta {
     
     /**
      * Compares the source with a target, writing to output.
-     * 
+     *
      * @param targetIS second file to compare with
      * @param output diff output
-     * 
-     * @throws IOException if diff generation fails
+     * @throws java.io.IOException if diff generation fails
+     * @param seekSource a {@link com.nothome.delta.text.SeekableSource} object.
      */
     public void compute(SeekableSource seekSource, Reader targetIS, DiffTextWriter output)
     throws IOException {
@@ -365,6 +381,9 @@ public class Delta {
     
     /**
      * Creates a patch with file names.
+     *
+     * @param s an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
      */
     public static void main(String s[]) throws IOException {
         if (s.length != 2) {

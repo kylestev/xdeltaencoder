@@ -29,28 +29,40 @@ import java.io.IOException;
 
 /**
  * Writes diff commands to a stream.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public interface DiffTextWriter extends Closeable {
     
     /**
      * Add a copy command.
+     *
      * @param offset start of sequence
      * @param length length of sequence
+     * @throws java.io.IOException if any.
      */
     void addCopy(int offset, int length) throws IOException;
     
-    /**
-     * Add a character to output.
-     */
+	/**
+	 * Add a character to output.
+	 *
+	 * @param seq a char.
+	 * @throws java.io.IOException if any.
+	 */
 	void addData(char seq) throws IOException;
 	
-	/**
-	 * Writes current state to output stream.
-	 */
+    /**
+     * Writes current state to output stream.
+     *
+     * @throws java.io.IOException if any.
+     */
     void flush() throws IOException;
     
     /**
      * Frees internal resources; closes output stream.
+     *
+     * @throws java.io.IOException if any.
      */
     void close() throws IOException;
 }

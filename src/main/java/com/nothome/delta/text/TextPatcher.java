@@ -35,6 +35,9 @@ import java.nio.CharBuffer;
 
 /**
  * Converts a text patch and source file to a resulting target file.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class TextPatcher {
 
@@ -43,6 +46,9 @@ public class TextPatcher {
     
     /**
      * Constructs a new TextPatcher with a generic source.
+     *
+     * @param source a {@link com.nothome.delta.text.SeekableSource} object.
+     * @throws java.io.IOException if any.
      */
     public TextPatcher(SeekableSource source) throws IOException {
         if (source == null)
@@ -52,6 +58,8 @@ public class TextPatcher {
     
     /**
      * Constructs a new TextPatcher with a source to patch.
+     *
+     * @param source a {@link java.lang.CharSequence} object.
      */
     public TextPatcher(CharSequence source) {
         this.source = new CharBufferSeekableSource(source);
@@ -59,6 +67,9 @@ public class TextPatcher {
     
     /**
      * Patch from a string, return the result.
+     *
+     * @param patch a {@link java.lang.CharSequence} object.
+     * @return a {@link java.lang.String} object.
      */
     public String patch(CharSequence patch) {
         if (patch == null)
@@ -78,7 +89,10 @@ public class TextPatcher {
     
     /**
      * Patches a source to an output file.
+     *
      * @param out The output must be closed by the caller
+     * @param patch a {@link java.io.Reader} object.
+     * @throws java.io.IOException if any.
      */
     public void patch(Reader patch, Writer out) throws IOException {
         if (patch == null)

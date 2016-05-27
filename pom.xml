@@ -10,79 +10,76 @@
 
     <name>XDeltaEncoder</name>
     <description>XDeltaEncoder - Patch generator and patch tool using the GDIFF algorithm</description>
+
     <licenses>
         <license>
+            <name>GNU General Public License v2.0</name>
             <url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
+
     <inceptionYear>2011</inceptionYear>
+
     <developers>
         <developer>
             <name>Frantisek Mantlik</name>
             <email>frantisek@mantlik.cz</email>
         </developer>
     </developers>
-    <url></url>
+
+    <url>https://github.com/kylestev/xdeltaencoder</url>
 
     <scm>
-        <connection>scm:git:https://code.google.com/p/xdeltaencoder/</connection>
-        <developerConnection>scm:git:https://code.google.com/p/xdeltaencoder/</developerConnection>
+        <connection>scm:git:https://github.com/kylestev/xdeltaencoder</connection>
+        <developerConnection>scm:git:git://git@github.com:kylestev/xdeltaencoder.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/kylestev/xdeltaencoder</url>
     </scm>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <configuration>
+                    <sourceFileExcludes>
+                        <!--<exclude>**/**Test.java</exclude>-->
+                    </sourceFileExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <distributionManagement>
+        <downloadUrl>http://mojo.codehaus.org/my-project</downloadUrl>
         <repository>
             <id>releases</id>
-            <url>http://host.mantlik.cz/nexus/content/groups/public/repositories/releases</url>
+            <uniqueVersion>false</uniqueVersion>
+            <url>https://jitpack.io/com/github/kylestev/xdeltaencoder</url>
+            <layout>default</layout>
         </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Internal Snapshots</name>
-            <url>http://host.mantlik.cz/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <finalName>${project.artifactId}-${project.version}-build-${buildNumber}</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.mantlik.xdeltaencoder.XDeltaEncoder</mainClass>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-scm-plugin</artifactId>
-                <version>1.0-rc1</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>bin</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
@@ -92,109 +89,30 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12</version>
-                <configuration />
-            </plugin>
-            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.0.0</version>
                 <configuration>
                     <archive>
-                        <manifest>
-                            <mainClass>org.mantlik.xdeltaencoder.XDeltaEncoder</mainClass>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
-                    <links>
-                        <link>http://java.sun.com/j2se/1.6.0/docs/api/</link>
-                    </links>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.0</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
                 <configuration>
-                    <verbose>false</verbose>
-                    <addSvnKeyWords>false</addSvnKeyWords>
-                    <licenseName>gpl_v2</licenseName>
-                    <inceptionYear>2011</inceptionYear>
-                    <organizationName>Frantisek Mantlik &lt;frantisek at mantlik.cz&gt;</organizationName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <roots>
-                                <root>src/main/java/org/mantlik</root>
-                            </roots>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.1-PREVIEW</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <useLastCommittedRevision>true</useLastCommittedRevision>
-                    <gitCountCommits>true</gitCountCommits>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.maven-gcu-plugin</groupId>
-                <artifactId>maven-gcu-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>upload</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <projectName>xdeltaencoder</projectName>
-                    <failsOnError>false</failsOnError>
-                    <serverId>code.google.com</serverId>
-                    <uploads>
-                        <upload>
-                            <file>${project.build.directory}/XDeltaEncoder-${project.version}-build-${buildNumber}.jar</file>
-                            <labels>
-                                <label>Featured</label>
-                            </labels>
-                            <summary>XDeltaEncoder ${project.version}</summary>
-                        </upload>
-                    </uploads>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
         </plugins>

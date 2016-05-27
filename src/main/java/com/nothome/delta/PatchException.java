@@ -30,6 +30,9 @@ import java.io.IOException;
 
 /**
  * Thrown when a patch is invalid.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class PatchException extends IOException {
     
@@ -43,6 +46,7 @@ public class PatchException extends IOException {
     
     /**
      * Constructs an instance of <code>PatchException</code> with the specified detail message.
+     *
      * @param msg the detail message.
      */
     public PatchException(String msg) {

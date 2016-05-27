@@ -14,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * <p>GDiffMerger class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class GDiffMerger extends GDiffPatcher {
 
@@ -29,6 +31,11 @@ public class GDiffMerger extends GDiffPatcher {
     private Command command = new Command();
     private TreeMap<Long, Long> index = new TreeMap<Long, Long>();
 
+    /**
+     * <p>Constructor for GDiffMerger.</p>
+     *
+     * @param writer a {@link com.nothome.delta.DiffWriter} object.
+     */
     public GDiffMerger(DiffWriter writer) {
         this.writer = writer;
     }

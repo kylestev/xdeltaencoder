@@ -35,6 +35,9 @@ import java.util.Random;
 
 /**
  * Checksum computation class.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class Checksum implements Serializable {
 
@@ -100,6 +103,13 @@ public class Checksum implements Serializable {
         //System.out.println("Generated "+checksums.size()+" hashes with "+repchecksums.size()+" duplicates.");
     }
 
+    /**
+     * <p>init.</p>
+     *
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param chunkSize a int.
+     * @throws java.io.IOException if any.
+     */
     public void init(SeekableSource source, int chunkSize) throws IOException {
         ByteBuffer bb = ByteBuffer.allocate(chunkSize * 2);
         //ByteBuffer cc = ByteBuffer.allocate(chunkSize * 2);
@@ -123,6 +133,14 @@ public class Checksum implements Serializable {
         }
     }
 
+    /**
+     * <p>compute.</p>
+     *
+     * @param bb a {@link java.nio.ByteBuffer} object.
+     * @param chunkSize a int.
+     * @param count a int.
+     * @return a int.
+     */
     public int compute(ByteBuffer bb, int chunkSize, int count) {
         TIntIntHashMap map;
         while (bb.remaining() >= chunkSize) {
@@ -144,10 +162,10 @@ public class Checksum implements Serializable {
     /**
      * Initialize checksum with seed-based random generated hashes
      *
-     * @param source
-     * @param chunkSize
-     * @param seed
-     * @throws IOException
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param chunkSize a int.
+     * @param seed a long.
+     * @throws java.io.IOException if any.
      */
     public Checksum(SeekableSource source, int chunkSize, long seed) throws IOException {
         this(source, chunkSize, seed, true);
@@ -156,9 +174,9 @@ public class Checksum implements Serializable {
     /**
      * Create checksum, use default hashes
      *
-     * @param source
-     * @param chunkSize
-     * @throws IOException
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param chunkSize a int.
+     * @throws java.io.IOException if any.
      */
     public Checksum(SeekableSource source, int chunkSize) throws IOException {
         this(source, chunkSize, 0, false);
@@ -167,6 +185,10 @@ public class Checksum implements Serializable {
     /**
      * Finds the checksum computed from the buffer. Marks, gets, then resets the
      * buffer.
+     *
+     * @param bb a {@link java.nio.ByteBuffer} object.
+     * @param len a int.
+     * @return a long.
      */
     public long queryChecksum(ByteBuffer bb, int len) {
         bb.mark();
@@ -204,6 +226,8 @@ public class Checksum implements Serializable {
 
     /**
      * 256 random hash values.
+     *
+     * @return an array of char.
      */
     public char[] getSingleHash() {
         return single_hash;
@@ -211,6 +235,9 @@ public class Checksum implements Serializable {
 
     /**
      * Finds the index of a checksum.
+     *
+     * @param hashf a long.
+     * @return a int.
      */
     public int findChecksumIndex(long hashf) {
         //currentList.clear();
@@ -227,15 +254,25 @@ public class Checksum implements Serializable {
         return map.get(chs);
     }
     
+    /**
+     * <p>isEmpty.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isEmpty() {
         return checksums.isEmpty();
     }
     
+    /**
+     * <p>clear.</p>
+     */
     public void clear() {
         checksums.clear();
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a debug
      * <code>String</code>.
      */

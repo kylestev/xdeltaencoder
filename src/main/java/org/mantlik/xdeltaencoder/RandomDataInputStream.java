@@ -30,8 +30,10 @@ import java.io.InputStream;
 import java.util.Random;
 
 /**
+ * <p>RandomDataInputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class RandomDataInputStream extends InputStream {
     
@@ -40,6 +42,12 @@ public class RandomDataInputStream extends InputStream {
     long position = 0;
     byte[] data = new byte[10000];
 
+    /**
+     * <p>Constructor for RandomDataInputStream.</p>
+     *
+     * @param seed a long.
+     * @param length a long.
+     */
     public RandomDataInputStream(long seed, long length) {
         this.seed = seed;
         this.length = length;
@@ -47,6 +55,7 @@ public class RandomDataInputStream extends InputStream {
         random.nextBytes(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read() throws IOException {
         if (position < length) {

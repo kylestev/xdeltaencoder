@@ -44,12 +44,15 @@ import java.text.DecimalFormat;
  * Class for computing deltas against a source. The source file is read by
  * blocks and a hash is computed per block. Then the target is scanned for
  * matching blocks.
- * <p/>
+ * <p>
  * This class is not thread safe. Use one instance per thread.
- * <p/>
+ * <p>
  * This class should support files over 4GB in length, although you must use a
  * larger checksum size, such as 1K, as all checksums use "int" indexing. Newer
  * versions may eventually support paging in/out of checksums.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class Delta {
 
@@ -65,6 +68,7 @@ public class Delta {
      * Use a size like 64 or 128 for large files.
      */
     public static final int DEFAULT_CHUNK_SIZE = 1 << 4;
+    /** Constant <code>LONGEST_POSSIBLE_MATCH=Short.MAX_VALUE - 4</code> */
     public static final int LONGEST_POSSIBLE_MATCH = Short.MAX_VALUE - 4;
     private static final DecimalFormat df = new DecimalFormat("0.00");
     /**
@@ -92,10 +96,20 @@ public class Delta {
         setChunkSize(DEFAULT_CHUNK_SIZE);
     }
 
+    /**
+     * <p>getChunkSize.</p>
+     *
+     * @return a int.
+     */
     public int getChunkSize() {
         return S;
     }
 
+    /**
+     * <p>getCheksumPos.</p>
+     *
+     * @return a long.
+     */
     public long getCheksumPos() {
         if (source == null) {
             return 0;
@@ -114,7 +128,7 @@ public class Delta {
      * Sets the chunk size used. Larger chunks are faster and use less memory,
      * but create larger patches as well.
      *
-     * @param size
+     * @param size a int.
      */
     public final void setChunkSize(int size) {
         if (size <= 0) {
@@ -133,6 +147,11 @@ public class Delta {
 
     /**
      * Compares the source bytes with target bytes, writing to output.
+     *
+     * @param source an array of byte.
+     * @param target an array of byte.
+     * @param output a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public void compute(byte source[], byte target[], OutputStream output)
             throws IOException {
@@ -143,6 +162,11 @@ public class Delta {
 
     /**
      * Compares the source bytes with target bytes, returning output.
+     *
+     * @param source an array of byte.
+     * @param target an array of byte.
+     * @return an array of byte.
+     * @throws java.io.IOException if any.
      */
     public byte[] compute(byte source[], byte target[])
             throws IOException {
@@ -153,6 +177,11 @@ public class Delta {
 
     /**
      * Compares the source bytes with target input, writing to output.
+     *
+     * @param sourceBytes an array of byte.
+     * @param inputStream a {@link java.io.InputStream} object.
+     * @param diffWriter a {@link com.nothome.delta.DiffWriter} object.
+     * @throws java.io.IOException if any.
      */
     public void compute(byte[] sourceBytes, InputStream inputStream,
             DiffWriter diffWriter) throws IOException {
@@ -164,6 +193,11 @@ public class Delta {
      * Compares the source file with a target file, writing to output.
      *
      * @param output will be closed
+     * @param sourceFile a {@link java.io.File} object.
+     * @param targetFile a {@link java.io.File} object.
+     * @param sourceOffset a long.
+     * @param closeOutput a boolean.
+     * @throws java.io.IOException if any.
      */
     public void compute(File sourceFile, File targetFile, DiffWriter output, long sourceOffset, boolean closeOutput)
             throws IOException {
@@ -177,16 +211,38 @@ public class Delta {
         }
     }
 
+    /**
+     * <p>compute.</p>
+     *
+     * @param sourceFile a {@link java.io.File} object.
+     * @param targetFile a {@link java.io.File} object.
+     * @param output a {@link com.nothome.delta.DiffWriter} object.
+     * @param sourceOffset a long.
+     * @throws java.io.IOException if any.
+     */
     public void compute(File sourceFile, File targetFile, DiffWriter output, long sourceOffset) throws IOException {
         compute(sourceFile, targetFile, output, sourceOffset, true);
     }
 
+    /**
+     * <p>compute.</p>
+     *
+     * @param sourceFile a {@link java.io.File} object.
+     * @param targetFile a {@link java.io.File} object.
+     * @param output a {@link com.nothome.delta.DiffWriter} object.
+     * @throws java.io.IOException if any.
+     */
     public void compute(File sourceFile, File targetFile, DiffWriter output) throws IOException {
         compute(sourceFile, targetFile, output, 0, true);
     }
 
     /*
      * SourceState will be reused if exists
+     */
+    /**
+     * <p>Setter for the field <code>keepSource</code>.</p>
+     *
+     * @param keepSource a boolean.
      */
     public void setKeepSource(boolean keepSource) {
         this.keepSource = keepSource;
@@ -195,16 +251,24 @@ public class Delta {
     /**
      * Source is the same as target. Ignore any forward matches.
      *
-     * @param autocode
+     * @param autocode a boolean.
      */
     public void setAutocode(boolean autocode) {
         this.autocode = autocode;
     }
 
+    /**
+     * <p>clearSource.</p>
+     */
     public void clearSource() {
         source = null;
     }
     
+    /**
+     * <p>hasSource.</p>
+     *
+     * @return a boolean.
+     */
     public boolean hasSource() {
         return source != null;
     }
@@ -213,6 +277,12 @@ public class Delta {
      * Compares the source with a target, writing to output.
      *
      * @param output will be closed
+     * @param seekSource a {@link com.nothome.delta.SeekableSource} object.
+     * @param targetIS a {@link java.io.InputStream} object.
+     * @param sourceOffset a long.
+     * @param targetOffset a long.
+     * @param closeOutput a boolean.
+     * @throws java.io.IOException if any.
      */
     public void compute(SeekableSource seekSource, InputStream targetIS, DiffWriter output, long sourceOffset,
             long targetOffset, boolean closeOutput) throws IOException {
@@ -342,6 +412,13 @@ public class Delta {
         }
     }
     
+    /**
+     * <p>writeChecksums.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @throws java.io.FileNotFoundException if any.
+     * @throws java.io.IOException if any.
+     */
     public void writeChecksums(String filename) throws FileNotFoundException, IOException {
         ObjectOutputStream os = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)));
         os.writeInt(S);
@@ -350,6 +427,14 @@ public class Delta {
         os.close();
     }
     
+    /**
+     * <p>readChecksums.</p>
+     *
+     * @param filename a {@link java.lang.String} object.
+     * @param seekSource a {@link com.nothome.delta.SeekableSource} object.
+     * @throws java.io.IOException if any.
+     * @throws java.lang.ClassNotFoundException if any.
+     */
     public void readChecksums(String filename, SeekableSource seekSource) throws IOException, ClassNotFoundException {
         ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
         source = new SourceState(seekSource);
@@ -371,10 +456,20 @@ public class Delta {
         output.addData((byte) i);
     }
 
+    /**
+     * <p>isDuplicateChecksum.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isDuplicateChecksum() {
         return duplicateChecksum;
     }
 
+    /**
+     * <p>Setter for the field <code>duplicateChecksum</code>.</p>
+     *
+     * @param duplicateChecksum a boolean.
+     */
     public void setDuplicateChecksum(boolean duplicateChecksum) {
         if (duplicateChecksum != this.duplicateChecksum) {
             this.duplicateChecksum = duplicateChecksum;
@@ -651,6 +746,9 @@ public class Delta {
 
     /**
      * Creates a patch using file names.
+     *
+     * @param argv an array of {@link java.lang.String} objects.
+     * @throws java.lang.Exception if any.
      */
     public static void main(String argv[]) throws Exception {
         if (argv.length != 3) {

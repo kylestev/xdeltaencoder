@@ -29,8 +29,10 @@ import java.io.*;
 import java.text.DecimalFormat;
 
 /**
+ * <p>SplitOutputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class SplitOutputStream extends OutputStream {
 
@@ -50,6 +52,7 @@ public class SplitOutputStream extends OutputStream {
         this.blocksize = blocksize;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void write(int b) throws IOException {
         if (os == null) {
@@ -68,6 +71,7 @@ public class SplitOutputStream extends OutputStream {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         if (os != null) {
@@ -84,6 +88,7 @@ public class SplitOutputStream extends OutputStream {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void flush() throws IOException {
         os.flush();

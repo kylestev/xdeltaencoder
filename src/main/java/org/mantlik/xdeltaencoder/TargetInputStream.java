@@ -33,8 +33,10 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
+ * <p>TargetInputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class TargetInputStream extends FileInputStream {
 
@@ -48,6 +50,14 @@ public class TargetInputStream extends FileInputStream {
     private final static DecimalFormat df = new DecimalFormat("0.00");
     private final static DecimalFormat df0 = new DecimalFormat("0");
 
+    /**
+     * <p>Constructor for TargetInputStream.</p>
+     *
+     * @param file a {@link java.io.File} object.
+     * @param interval a long.
+     * @param patcher a {@link com.nothome.delta.GDiffPatcher} object.
+     * @throws java.io.FileNotFoundException if any.
+     */
     public TargetInputStream(File file, long interval, GDiffPatcher patcher) throws FileNotFoundException {
         super(file);
         this.interval = interval;
@@ -72,12 +82,14 @@ public class TargetInputStream extends FileInputStream {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read() throws IOException {
         readBytes(1);
         return super.read();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(byte[] b) throws IOException {
         int i = super.read(b);
@@ -85,6 +97,7 @@ public class TargetInputStream extends FileInputStream {
         return i;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int i = super.read(b, off, len);
@@ -92,6 +105,7 @@ public class TargetInputStream extends FileInputStream {
         return i;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long skip(long n) throws IOException {
         long i = super.skip(n);

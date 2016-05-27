@@ -29,10 +29,13 @@ import java.io.*;
 import java.nio.ByteBuffer;
 
 /**
- * This class patches an input file with a GDIFF patch fil�e.
+ * This class patches an input file with a GDIFF patch file.
  *
  * The patch file follows the GDIFF file specification available at
- * {@link http://www.w3.org/TR/NOTE-gdiff-19970901.html}.
+ * @see <a href="http://www.w3.org/TR/NOTE-gdiff-19970901.html">http://www.w3.org/TR/NOTE-gdiff-19970901.html</a>
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class GDiffPatcher {
 
@@ -50,6 +53,11 @@ public class GDiffPatcher {
 
     /**
      * Patches to an output file.
+     *
+     * @param sourceFile a {@link java.io.File} object.
+     * @param patchFile a {@link java.io.File} object.
+     * @param outputFile a {@link java.io.File} object.
+     * @throws java.io.IOException if any.
      */
     public void patch(File sourceFile, File patchFile, File outputFile)
             throws IOException {
@@ -69,6 +77,11 @@ public class GDiffPatcher {
 
     /**
      * Patches to an output stream.
+     *
+     * @param source an array of byte.
+     * @param patch a {@link java.io.InputStream} object.
+     * @param output a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public void patch(byte[] source, InputStream patch, OutputStream output) throws IOException {
         patch(new ByteBufferSeekableSource(source), patch, output);
@@ -76,6 +89,11 @@ public class GDiffPatcher {
 
     /**
      * Patches in memory, returning the patch result.
+     *
+     * @param source an array of byte.
+     * @param patch an array of byte.
+     * @return an array of byte.
+     * @throws java.io.IOException if any.
      */
     public byte[] patch(byte[] source, byte[] patch) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -85,6 +103,11 @@ public class GDiffPatcher {
 
     /**
      * Patches to an output stream.
+     *
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param patch a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public void patch(SeekableSource source, InputStream patch, OutputStream out) throws IOException {
 
@@ -299,6 +322,8 @@ public class GDiffPatcher {
 
     /**
      * Simple command line tool to patch a file.
+     *
+     * @param argv an array of {@link java.lang.String} objects.
      */
     public static void main(String argv[]) {
 

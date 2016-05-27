@@ -31,31 +31,34 @@ import java.io.Writer;
 /**
  * A text-file format analog for GDIFF, which is only supported for binary
  * streams.
- * 
+ *
  * The output follows the following extended BNF format:
- * 
- <pre>
- gdiff-text ::= header , { copy | data }
- header ::= 'gdt' , { version } , '\n'
- copy   ::= 'y' offset ',' length '\n'
- data   ::= 'i' length '\n' text-chunk '\n'
- length ::= hex-digit , { hex-digit }
- offset ::= hex-digit , { hex-digit }
- hex-digit  ::= '0'-'9' | 'a'-'f'
- text-chunk ::= (* arbitrary text string *)
- version ::= '1'-'9'
- </pre>
- * Note that 'y' is used for copy and 'i' for data since they aren't to be 
+ *
+ * <pre>
+ * gdiff-text ::= header , { copy | data }
+ * header ::= 'gdt' , { version } , '\n'
+ * copy   ::= 'y' offset ',' length '\n'
+ * data   ::= 'i' length '\n' text-chunk '\n'
+ * length ::= hex-digit , { hex-digit }
+ * offset ::= hex-digit , { hex-digit }
+ * hex-digit  ::= '0'-'9' | 'a'-'f'
+ * text-chunk ::= (* arbitrary text string *)
+ * version ::= '1'-'9'
+ * </pre>
+ * Note that 'y' is used for copy and 'i' for data since they aren't to be
  * confused with the hex characters 'c' and 'd'.
  * <p>
  * Note that the length of text-string is capped at {@link #CHUNK_SIZE} characters
  * for this implementation.
  * <p>
- * The initial version is 1 and is optionally indicated. Newer versions may support 
+ * The initial version is 1 and is optionally indicated. Newer versions may support
  * additional commands and hints.
  * <p>
  * See also:
  * http://www.w3.org/TR/NOTE-gdiff-19970901.html.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class GDiffTextWriter implements DiffTextWriter {
 
@@ -94,8 +97,9 @@ public class GDiffTextWriter implements DiffTextWriter {
 
     /**
      * Constructs a new GDiffTextWriter.
-     * @param w
-     * @throws IOException
+     *
+     * @param w a {@link java.io.Writer} object.
+     * @throws java.io.IOException if any.
      */
     public GDiffTextWriter(Writer w) throws IOException {
         if (w == null)
@@ -109,6 +113,7 @@ public class GDiffTextWriter implements DiffTextWriter {
         return Integer.toHexString(i);
     }
 
+    /** {@inheritDoc} */
     public void addCopy(int offset, int length) throws IOException {
         writeBuf();
         w.write(COPY);
@@ -118,6 +123,7 @@ public class GDiffTextWriter implements DiffTextWriter {
         w.write(LF);
     }
 
+    /** {@inheritDoc} */
     public void addData(char c) throws IOException {
         caw.append(c);
         if (caw.size() > CHUNK_SIZE)
@@ -135,11 +141,21 @@ public class GDiffTextWriter implements DiffTextWriter {
         w.write(LF);
     }
 
+    /**
+     * <p>flush.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void flush() throws IOException {
         writeBuf();
         w.flush();
     }
 
+    /**
+     * <p>close.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void close() throws IOException {
         flush();
         w.close();

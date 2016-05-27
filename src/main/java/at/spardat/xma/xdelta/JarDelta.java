@@ -52,8 +52,8 @@ public class JarDelta {
 
     /**
      * Computes the binary differences of two zip files. For all files contained in source and target which
-     * are not equal, the binary difference is caluclated by using
-     * {@link com.nothome.delta.Delta#computeDelta(com.nothome.delta.SeekableSource, InputStream, int, DiffWriter)}.
+     * are not equal, the binary difference is calculated by using
+     * {@link com.nothome.delta.Delta#compute(byte[], InputStream, DiffWriter)}.
      * If the files are equal, nothing is written to the output for them.
      * Files contained only in target and files to small for {@link com.nothome.delta.Delta} are copied to output.
      * Files contained only in source are ignored.

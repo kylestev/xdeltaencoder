@@ -31,6 +31,9 @@ import java.io.OutputStream;
 /**
  * Outputs a diff following the GDIFF file specification available at
  * http://www.w3.org/TR/NOTE-gdiff-19970901.html.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class GDiffWriter implements DiffWriter {
 
@@ -38,28 +41,46 @@ public class GDiffWriter implements DiffWriter {
      * Max length of a chunk.
      */
     public static final int CHUNK_SIZE = Short.MAX_VALUE;
+    /** Constant <code>SKIP_HEADER=1</code> */
     public static final int SKIP_HEADER = 1;
+    /** Constant <code>SKIP_EOF=2</code> */
     public static final int SKIP_EOF = 2;
+    /** Constant <code>EOF=0</code> */
     public static final byte EOF = 0;
     /**
      * Max length for single length data encode.
      */
     public static final int DATA_MAX = 246;  //0xf6
+    /** Constant <code>DATA_USHORT=247</code> */
     public static final int DATA_USHORT = 247;  //0xf7
+    /** Constant <code>DATA_INT=248</code> */
     public static final int DATA_INT = 248;  //0xf8
+    /** Constant <code>COPY_UBYTE_UBYTE=244</code> */
     public static final int COPY_UBYTE_UBYTE = 244;  //0xf3
+    /** Constant <code>COPY_UBYTE_USHORT=245</code> */
     public static final int COPY_UBYTE_USHORT = 245;  //0xf4
+    /** Constant <code>COPY_UBYTE_INT=246</code> */
     public static final int COPY_UBYTE_INT = 246;  //0xf5
+    /** Constant <code>COPY_USHORT_UBYTE=249</code> */
     public static final int COPY_USHORT_UBYTE = 249;  //0xf9
+    /** Constant <code>COPY_USHORT_USHORT=250</code> */
     public static final int COPY_USHORT_USHORT = 250;  //0xfa
+    /** Constant <code>COPY_USHORT_INT=251</code> */
     public static final int COPY_USHORT_INT = 251;  //0xfb
+    /** Constant <code>COPY_INT_UBYTE=252</code> */
     public static final int COPY_INT_UBYTE = 252;  //0xfc
+    /** Constant <code>COPY_INT_USHORT=253</code> */
     public static final int COPY_INT_USHORT = 253; //0xfd
+    /** Constant <code>COPY_INT_INT=254</code> */
     public static final int COPY_INT_INT = 254;  //0xfe
+    /** Constant <code>COPY_LONG_INT=255</code> */
     public static final int COPY_LONG_INT = 255; //0xff
+    /** Constant <code>DEFAULT_ZERO_MIN_BLOCK=10</code> */
     public static final int DEFAULT_ZERO_MIN_BLOCK = 10;
+    /** Constant <code>DEFAULT_ZERO_RATIO=0.9d</code> */
     public static final double DEFAULT_ZERO_RATIO = 0.9d;
     
+    /** Constant <code>RATIO_WINDOW_SIZE=1024*1024</code> */
     public static final int RATIO_WINDOW_SIZE = 1024*1024; // 1 Mbyte floating window
     private final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     private final boolean debug = false;
@@ -81,21 +102,49 @@ public class GDiffWriter implements DiffWriter {
 
     /**
      * Constructs a new GDiffWriter.
-     * @param os
-     * @throws IOException  
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public GDiffWriter(DataOutputStream os) throws IOException {
         this(os, 0, false, false, -1, DEFAULT_ZERO_RATIO);
     }
 
+    /**
+     * <p>Constructor for GDiffWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @param skipHeaders a int.
+     * @throws java.io.IOException if any.
+     */
     public GDiffWriter(DataOutputStream os, int skipHeaders) throws IOException {
         this(os, skipHeaders, false, false, -1, DEFAULT_ZERO_RATIO);
     }
 
+    /**
+     * <p>Constructor for GDiffWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @param skipHeaders a int.
+     * @param differential a boolean.
+     * @param zeroAdditions a boolean.
+     * @throws java.io.IOException if any.
+     */
     public GDiffWriter(DataOutputStream os, int skipHeaders, boolean differential, boolean zeroAdditions) throws IOException {
         this(os, skipHeaders, differential, zeroAdditions, -1, DEFAULT_ZERO_RATIO);
     }
     
+    /**
+     * <p>Constructor for GDiffWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @param skipHeaders a int.
+     * @param differential a boolean.
+     * @param zeroAdditions a boolean.
+     * @param zeroMinBlock a int.
+     * @param zeroRatio a double.
+     * @throws java.io.IOException if any.
+     */
     public GDiffWriter(DataOutputStream os, int skipHeaders, boolean differential, boolean zeroAdditions, 
             int zeroMinBlock, double zeroRatio) throws IOException {
         this.differential = differential;
@@ -124,17 +173,24 @@ public class GDiffWriter implements DiffWriter {
 
     /**
      * Constructs a new GDiffWriter.
-     * @param output
-     * @throws IOException  
+     *
+     * @param output a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public GDiffWriter(OutputStream output) throws IOException {
         this(new DataOutputStream(output));
     }
     
+    /**
+     * <p>written.</p>
+     *
+     * @return a long.
+     */
     public long written() {
         return written;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addCopy(long offset, int length) throws IOException {
         writeBuf();
@@ -216,9 +272,9 @@ public class GDiffWriter implements DiffWriter {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Adds a data byte.
-     * @param b
-     * @throws IOException  
      */
     @Override
     public void addData(byte b) throws IOException {
@@ -257,8 +313,9 @@ public class GDiffWriter implements DiffWriter {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Flushes accumulated data bytes, if any.
-     * @throws IOException 
      */
     @Override
     public void flush() throws IOException {
@@ -267,6 +324,8 @@ public class GDiffWriter implements DiffWriter {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Writes the final EOF byte, closes the underlying stream.
      */
     @Override
@@ -276,6 +335,6 @@ public class GDiffWriter implements DiffWriter {
             output.write((byte) EOF);
             written ++;
         }
-        output.close();
+//        output.close();
     }
 }

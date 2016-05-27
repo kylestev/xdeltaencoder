@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * <p>XDiffWriter class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class XDiffWriter implements DiffWriter {
 
@@ -47,6 +49,12 @@ public class XDiffWriter implements DiffWriter {
     public long dataLen = 0;
     public long[] addrlen = new long[ADDRPOOLS];
 
+    /**
+     * <p>Constructor for XDiffWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @throws java.io.FileNotFoundException if any.
+     */
     public XDiffWriter(DataOutputStream os) throws FileNotFoundException {
         output = os;
         instr = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("instr.tmp")));
@@ -56,6 +64,7 @@ public class XDiffWriter implements DiffWriter {
         }
     }
 
+    /** {@inheritDoc} */
     public void addCopy(long offset, int length) throws IOException {
         if (newdata > 0) {    // write data
             write_dataops();
@@ -67,6 +76,7 @@ public class XDiffWriter implements DiffWriter {
         copyops.add(new Copyop(offset, length));
     }
 
+    /** {@inheritDoc} */
     public void addData(byte b) throws IOException {
         if (copyops.size() > 0) {     // write copy ops
             write_copyops();
@@ -162,6 +172,11 @@ public class XDiffWriter implements DiffWriter {
         }
     }
 
+    /**
+     * <p>flush.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void flush() throws IOException {
         if (copyops.size() > 0) {
             write_copyops();
@@ -177,6 +192,11 @@ public class XDiffWriter implements DiffWriter {
         return;
     }
 
+    /**
+     * <p>close.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void close() throws IOException {
         flush();
         instrLen = instr.size();

@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
+ * <p>MultiBufferSeekableSource class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class MultiBufferSeekableSource implements SeekableSource {
 
@@ -55,6 +57,13 @@ public class MultiBufferSeekableSource implements SeekableSource {
     private ByteBuffer isbuf;
     private ByteBuffer osbuf;
 
+    /**
+     * <p>Constructor for MultiBufferSeekableSource.</p>
+     *
+     * @param source a {@link java.io.RandomAccessFile} object.
+     * @param bufferSize a int.
+     * @param noOfBuffers a int.
+     */
     public MultiBufferSeekableSource(RandomAccessFile source, int bufferSize, int noOfBuffers) {
         this.source = source;
         this.bufferSize = bufferSize;
@@ -66,6 +75,7 @@ public class MultiBufferSeekableSource implements SeekableSource {
         osbuf.clear();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void seek(long pos) throws IOException {
         clearos();
@@ -110,6 +120,7 @@ public class MultiBufferSeekableSource implements SeekableSource {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(ByteBuffer bb) throws IOException {
         clearos();
@@ -146,6 +157,7 @@ public class MultiBufferSeekableSource implements SeekableSource {
         return c;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         clearos();
@@ -154,6 +166,12 @@ public class MultiBufferSeekableSource implements SeekableSource {
         //source.close();
     }
 
+    /**
+     * <p>close.</p>
+     *
+     * @param closeSource a boolean.
+     * @throws java.io.IOException if any.
+     */
     public void close(boolean closeSource) throws IOException {
         close();
         if (closeSource) {
@@ -162,6 +180,9 @@ public class MultiBufferSeekableSource implements SeekableSource {
     }
     // Input stream simulation
 
+    /**
+     * <p>resetStream.</p>
+     */
     public void resetStream() {
         isPos = 0;
         isbuf.clear();

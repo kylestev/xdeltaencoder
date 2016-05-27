@@ -33,9 +33,13 @@ import java.nio.CharBuffer;
 
 /**
  * Checksum that uses character streams.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class Checksum {
     
+    /** Constant <code>debug=false</code> */
     public static boolean debug = false;
     
     protected TLongIntHashMap checksums = new TLongIntHashMap();
@@ -81,6 +85,10 @@ public class Checksum {
     /**
      * Initialize checksums for source. The checksum for the <code>chunkSize</code> bytes at offset
      * <code>chunkSize</code> * i is inserted into an array at index i.
+     *
+     * @param source a {@link java.lang.Readable} object.
+     * @param chunkSize a int.
+     * @throws java.io.IOException if any.
      */
     public Checksum(Readable source, int chunkSize) throws IOException {
         CharBuffer bb = CharBuffer.allocate(chunkSize * 2);
@@ -100,6 +108,10 @@ public class Checksum {
     
     /**
      * Marks, gets, then resets the checksum computed from the buffer.
+     *
+     * @param bb a {@link java.nio.CharBuffer} object.
+     * @param len a int.
+     * @return a long.
      */
     public long queryChecksum(CharBuffer bb, int len) {
         bb.mark();
@@ -121,6 +133,15 @@ public class Checksum {
         return ((high & 0xffff) << 16) | (low & 0xffff);
     }
     
+    /**
+     * <p>incrementChecksum.</p>
+     *
+     * @param checksum a long.
+     * @param out a char.
+     * @param in a char.
+     * @param chunkSize a int.
+     * @return a long.
+     */
     public long incrementChecksum(long checksum, char out, char in, int chunkSize) {
         char old_c = single_hash[b(out)+128];
         char new_c = single_hash[b(in)+128];
@@ -129,6 +150,12 @@ public class Checksum {
         return (high << 16) | (low & 0xffff);
     }
     
+    /**
+     * <p>findChecksumIndex.</p>
+     *
+     * @param hashf a long.
+     * @return a int.
+     */
     public int findChecksumIndex(long hashf) {
         if (!checksums.contains(hashf))
             return -1;
@@ -136,6 +163,8 @@ public class Checksum {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a debug <code>String</code>.
      */
     @Override

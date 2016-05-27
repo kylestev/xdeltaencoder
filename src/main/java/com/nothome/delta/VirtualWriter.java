@@ -10,10 +10,12 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 /**
+ * <p>VirtualWriter class.</p>
  *
  * @author fm simple instructions writer Instructions: byte 1=copy_sourcedata
  * long sourceoffset int sourcelength byte 2=add_targetdata int targetlength
  * byte 3=end
+ * @version $Id: $Id
  */
 public class VirtualWriter implements DiffWriter {
 
@@ -28,11 +30,23 @@ public class VirtualWriter implements DiffWriter {
     private ByteBuffer buffer;
     private long position = 0;
 
+    /**
+     * <p>Constructor for VirtualWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     */
     public VirtualWriter(DataOutputStream os) {
         this.output = os;
         dataLength = 0;
     }
 
+    /**
+     * <p>Constructor for VirtualWriter.</p>
+     *
+     * @param os a {@link java.io.DataOutputStream} object.
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param target a {@link java.io.InputStream} object.
+     */
     public VirtualWriter(DataOutputStream os, SeekableSource source, InputStream target) {
         this(os);
         debugMode = true;
@@ -41,6 +55,7 @@ public class VirtualWriter implements DiffWriter {
         this.target = target;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addCopy(long offset, int length) throws IOException {
         if (length == 0) {
@@ -82,6 +97,7 @@ public class VirtualWriter implements DiffWriter {
         output.writeInt(length);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addData(byte b) throws IOException {
         if (debugMode) {
@@ -95,12 +111,14 @@ public class VirtualWriter implements DiffWriter {
         totalLength++;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void flush() throws IOException {
         writeData();
         output.flush();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         writeData();

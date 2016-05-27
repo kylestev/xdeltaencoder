@@ -44,26 +44,27 @@ import com.nothome.delta.GDiffWriter;
  * to all files contained in both zip files. All these binary differences are stored in the output zip file.
  * New files are simply copied to the output zip file. Additionally all files contained in the target zip
  * file are listed in <code>META-INF/file.list</code>.<p>
- * Use {@link JarPatcher} to apply the output zip file.<p>
+ * Use {@link at.spardat.xma.xdelta.JarPatcher} to apply the output zip file.<p>
  *
  * @author gruber
+ * @version $Id: $Id
  */
 public class JarDelta {
 
-    /**
-     * Computes the binary differences of two zip files. For all files contained in source and target which
-     * are not equal, the binary difference is calculated by using
-     * {@link com.nothome.delta.Delta#compute(byte[], InputStream, DiffWriter)}.
-     * If the files are equal, nothing is written to the output for them.
-     * Files contained only in target and files to small for {@link com.nothome.delta.Delta} are copied to output.
-     * Files contained only in source are ignored.
-     * At last a list of all files contained in target is written to <code>META-INF/file.list</code> in output.
-     *
-     * @param source the original zip file
-     * @param target a modification of the original zip file
-     * @param output the zip file where the patches have to be written to
-     * @throws IOException if an error occures reading or writing any entry in a zip file
-     */
+	/**
+	 * Computes the binary differences of two zip files. For all files contained in source and target which
+	 * are not equal, the binary difference is calculated by using
+	 * {@link com.nothome.delta.Delta#compute(byte[], InputStream, DiffWriter)}.
+	 * If the files are equal, nothing is written to the output for them.
+	 * Files contained only in target and files to small for {@link com.nothome.delta.Delta} are copied to output.
+	 * Files contained only in source are ignored.
+	 * At last a list of all files contained in target is written to <code>META-INF/file.list</code> in output.
+	 *
+	 * @param source the original zip file
+	 * @param target a modification of the original zip file
+	 * @param output the zip file where the patches have to be written to
+	 * @throws java.io.IOException if an error occures reading or writing any entry in a zip file
+	 */
 	public void computeDelta(ZipFile source, ZipFile target, ZipOutputStream output) throws IOException {
         try {
             ByteArrayOutputStream listBytes = new ByteArrayOutputStream();
@@ -124,10 +125,13 @@ public class JarDelta {
         }
 	}
 
-    /**
-     * Test if the content of two byte arrays is completly identical.
-     * @return true if source and target contain the same bytes.
-     */
+	/**
+	 * Test if the content of two byte arrays is completly identical.
+	 *
+	 * @return true if source and target contain the same bytes.
+	 * @param source an array of byte.
+	 * @param target an array of byte.
+	 */
 	public boolean equal(byte[] source,byte[]target) {
 	    if(source.length!=target.length) return false;
         for(int i=0;i<source.length;i++) {
@@ -136,11 +140,14 @@ public class JarDelta {
         return true;
     }
 
-    /**
-     * Main method to make {@link #computeDelta(ZipFile, ZipFile, ZipOutputStream)} available at
-     * the command line.<br>
-     * usage JarDelta source target output
-     */
+	/**
+	 * Main method to make {@link #computeDelta(ZipFile, ZipFile, ZipOutputStream)} available at
+	 * the command line.<br>
+	 * usage JarDelta source target output
+	 *
+	 * @param args an array of {@link java.lang.String} objects.
+	 * @throws java.io.IOException if any.
+	 */
 	public static void main(String[] args) throws IOException {
 		if (args.length != 3) {
 			System.err.println("usage JarDelta source target output");

@@ -38,8 +38,10 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
+ * <p>XDeltaEncoder class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class XDeltaEncoder {
 
@@ -108,6 +110,7 @@ public class XDeltaEncoder {
         Status status = new Status();
         status.read();
         if (status.pass == 0) {
+//            Files.createTempDirectory()
             status.tempFile1 = File.createTempFile("temp1-", ".vdiff", new File("."));
             status.tempFile2 = File.createTempFile("temp2-", ".vdiff", new File("."));
             status.tempFile3 = File.createTempFile("temp3-", ".vdiff", new File("."));
@@ -1313,6 +1316,8 @@ public class XDeltaEncoder {
     }
 
     /**
+     * <p>main.</p>
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {

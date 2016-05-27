@@ -12,13 +12,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * <p>GDiffConverter class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class GDiffConverter extends GDiffPatcher {
     
     private final DiffWriter writer;
             
+    /**
+     * <p>Constructor for GDiffConverter.</p>
+     *
+     * @param writer a {@link com.nothome.delta.DiffWriter} object.
+     */
     public GDiffConverter (DiffWriter writer) {
         this.writer = writer;
     }

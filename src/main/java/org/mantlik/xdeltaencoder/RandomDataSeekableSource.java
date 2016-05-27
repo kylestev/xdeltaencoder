@@ -35,6 +35,7 @@ import java.util.Random;
  * have the same virtual content
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class RandomDataSeekableSource implements SeekableSource {
 
@@ -43,6 +44,12 @@ public class RandomDataSeekableSource implements SeekableSource {
     long position = 0;
     byte[] data = new byte[10000];
 
+    /**
+     * <p>Constructor for RandomDataSeekableSource.</p>
+     *
+     * @param seed a long.
+     * @param length a long.
+     */
     public RandomDataSeekableSource(long seed, long length) {
         this.seed = seed;
         this.length = length;
@@ -50,6 +57,7 @@ public class RandomDataSeekableSource implements SeekableSource {
         random.nextBytes(data);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void seek(long pos) throws IOException {
         if ((pos > length) || (pos < 0)) {
@@ -58,6 +66,7 @@ public class RandomDataSeekableSource implements SeekableSource {
         position = pos;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(ByteBuffer dest) throws IOException {
         if (position >= length) {
@@ -72,6 +81,7 @@ public class RandomDataSeekableSource implements SeekableSource {
         return c;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         position = length;

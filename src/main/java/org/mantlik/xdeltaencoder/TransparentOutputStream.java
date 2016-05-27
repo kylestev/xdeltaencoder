@@ -42,8 +42,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * <p>TransparentOutputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class TransparentOutputStream extends OutputStream {
 
@@ -52,10 +54,16 @@ public class TransparentOutputStream extends OutputStream {
     private int bufferpos = 0;
     private final byte[] buffer = new byte[BUFFERSIZE];
 
+    /**
+     * <p>Constructor for TransparentOutputStream.</p>
+     *
+     * @param stream a {@link java.io.OutputStream} object.
+     */
     public TransparentOutputStream(OutputStream stream) {
         this.stream = stream;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void write(int b) throws IOException {
         buffer[bufferpos] = (byte) b;
@@ -66,6 +74,7 @@ public class TransparentOutputStream extends OutputStream {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void flush() throws IOException {
         super.flush();
@@ -76,11 +85,17 @@ public class TransparentOutputStream extends OutputStream {
         stream.flush();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         // do not close
     }
 
+    /**
+     * <p>closeStream.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void closeStream() throws IOException {
         flush();
         stream.close();

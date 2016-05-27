@@ -28,11 +28,17 @@ import java.io.IOException;
 
 /**
  * Text seekable source
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public interface SeekableSource extends Readable, Closeable {
     
     /**
      * Sets the position for the next read operation.
+     *
+     * @param pos a long.
+     * @throws java.io.IOException if any.
      */
     public void seek(long pos) throws IOException;
     

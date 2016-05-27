@@ -29,7 +29,10 @@ import java.io.IOException;
 import java.nio.CharBuffer;
 
 /**
- * Wrapper for a {@link CharBuffer}.
+ * Wrapper for a {@link java.nio.CharBuffer}.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class CharBufferSeekableSource implements SeekableSource {
     
@@ -38,6 +41,8 @@ public class CharBufferSeekableSource implements SeekableSource {
 
     /**
      * Constructs a new CharBufferSeekableSource.
+     *
+     * @param cb a {@link java.nio.CharBuffer} object.
      */
     public CharBufferSeekableSource(CharBuffer cb) {
         if (cb == null)
@@ -52,11 +57,14 @@ public class CharBufferSeekableSource implements SeekableSource {
     
     /**
      * Constructs a new CharBufferSeekableSource from a char sequence (String).
+     *
+     * @param seq a {@link java.lang.CharSequence} object.
      */
     public CharBufferSeekableSource(CharSequence seq) {
         this(CharBuffer.wrap(seq));
     }
 
+    /** {@inheritDoc} */
     public void seek(long pos) throws IOException {
         cb.rewind();
         cur = cb.slice();
@@ -65,10 +73,16 @@ public class CharBufferSeekableSource implements SeekableSource {
         cur.position((int) pos);
     }
 
+    /** {@inheritDoc} */
     public int read(CharBuffer charbuffer) throws IOException {
         return cur.read(charbuffer);
     }
 
+    /**
+     * <p>close.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void close() throws IOException {
     }
 }

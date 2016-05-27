@@ -31,8 +31,10 @@ import java.text.DecimalFormat;
 import java.util.TreeMap;
 
 /**
+ * <p>SplitInputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class SplitInputStream extends InputStream {
 
@@ -65,6 +67,7 @@ public class SplitInputStream extends InputStream {
         this.patcher = patcher;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read() throws IOException {
         if (currentFile==null) {
@@ -102,6 +105,7 @@ public class SplitInputStream extends InputStream {
         return i;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         if (is != null) {

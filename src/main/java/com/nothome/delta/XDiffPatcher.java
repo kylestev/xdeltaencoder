@@ -21,8 +21,10 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
+ * <p>XDiffPatcher class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class XDiffPatcher {
 
@@ -31,6 +33,11 @@ public class XDiffPatcher {
 
     /**
      * Patches to an output stream.
+     *
+     * @param source a {@link com.nothome.delta.SeekableSource} object.
+     * @param patch a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.OutputStream} object.
+     * @throws java.io.IOException if any.
      */
     public void patch(SeekableSource source, InputStream patch, OutputStream out) throws IOException {
 

@@ -32,19 +32,29 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
 /**
- * For sources of random-access data, such as {@link RandomAccessFile}.
+ * For sources of random-access data, such as {@link java.io.RandomAccessFile}.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public interface SeekableSource extends Closeable {
     
     /**
      * Sets the position for the next {@link #read(ByteBuffer)}.
+     *
+     * @param pos a long.
+     * @throws java.io.IOException if any.
      */
     void seek(long pos) throws IOException ;
     
     /**
-     * Reads up to {@link ByteBuffer#remaining()} bytes from the source,
+     * Reads up to {@link java.nio.ByteBuffer#remaining()} bytes from the source,
      * returning the number of bytes read, or -1 if no bytes were read
      * and EOF was reached.
+     *
+     * @param bb a {@link java.nio.ByteBuffer} object.
+     * @return a int.
+     * @throws java.io.IOException if any.
      */
     int read(ByteBuffer bb) throws IOException;
     

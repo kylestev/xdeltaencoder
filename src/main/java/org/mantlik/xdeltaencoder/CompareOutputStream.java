@@ -37,14 +37,26 @@ class CompareOutputStream  extends OutputStream {
     long count = 0;
     public boolean compareOK = true;
     
+    /**
+     * <p>Constructor for CompareOutputStream.</p>
+     *
+     * @param target a {@link java.io.File} object.
+     * @throws java.io.FileNotFoundException if any.
+     */
     public CompareOutputStream(File target) throws FileNotFoundException {
         this.target = new BufferedInputStream(new FileInputStream(target), 100000);
     }
     
+    /**
+     * <p>Constructor for CompareOutputStream.</p>
+     *
+     * @param target a {@link java.io.InputStream} object.
+     */
     public CompareOutputStream(InputStream target) {
         this.target = target;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void write(int b) throws IOException {
         int c = target.read();
@@ -55,6 +67,7 @@ class CompareOutputStream  extends OutputStream {
         count++;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         target.close();

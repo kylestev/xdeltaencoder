@@ -32,6 +32,9 @@ import java.nio.ByteBuffer;
 
 /**
  * Wraps a random access file.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class RandomAccessFileSeekableSource implements SeekableSource {
 
@@ -43,7 +46,8 @@ public class RandomAccessFileSeekableSource implements SeekableSource {
     /**
      * Constructs a new RandomAccessFileSeekableSource.
      *
-     * @param raf
+     * @param raf a {@link java.io.RandomAccessFile} object.
+     * @throws java.io.IOException if any.
      */
     public RandomAccessFileSeekableSource(RandomAccessFile raf) throws IOException {
         if (raf == null) {
@@ -55,6 +59,14 @@ public class RandomAccessFileSeekableSource implements SeekableSource {
         position = 0;
     }
 
+    /**
+     * <p>Constructor for RandomAccessFileSeekableSource.</p>
+     *
+     * @param raf a {@link java.io.RandomAccessFile} object.
+     * @param offset a long.
+     * @param length a long.
+     * @throws java.io.IOException if any.
+     */
     public RandomAccessFileSeekableSource(RandomAccessFile raf, long offset, long length) throws IOException {
         if (raf == null) {
             throw new NullPointerException("raf");
@@ -65,12 +77,22 @@ public class RandomAccessFileSeekableSource implements SeekableSource {
         this.position = 0;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void seek(long pos) throws IOException {
         raf.seek(pos + offset);
         position = Math.min(length, pos);
     }
 
+    /**
+     * <p>read.</p>
+     *
+     * @param b an array of byte.
+     * @param off a int.
+     * @param len a int.
+     * @return a int.
+     * @throws java.io.IOException if any.
+     */
     public int read(byte[] b, int off, int len) throws IOException {
         long ll = Math.min(len, length - position);
         if (ll <= 0) {
@@ -87,15 +109,23 @@ public class RandomAccessFileSeekableSource implements SeekableSource {
         return i;
     }
 
+    /**
+     * <p>length.</p>
+     *
+     * @return a long.
+     * @throws java.io.IOException if any.
+     */
     public long length() throws IOException {
         return length;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         raf.close();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(ByteBuffer bb) throws IOException {
         long ll = Math.min(bb.remaining(), length - position);

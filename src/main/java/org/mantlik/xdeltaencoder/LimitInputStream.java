@@ -29,8 +29,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * <p>LimitInputStream class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class LimitInputStream extends InputStream {
 
@@ -41,6 +43,7 @@ public class LimitInputStream extends InputStream {
         this.is = is;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read() throws IOException {
         if (limit < 0) {
@@ -53,6 +56,7 @@ public class LimitInputStream extends InputStream {
         return -1;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int available() throws IOException {
         if (limit < 0) {
@@ -61,6 +65,7 @@ public class LimitInputStream extends InputStream {
         return Math.min(super.available(), (int) Math.min(limit, Integer.MAX_VALUE));
     }
 
+    /** {@inheritDoc} */
     @Override
     public long skip(long n) throws IOException {
         if (limit < 0) {
@@ -71,6 +76,11 @@ public class LimitInputStream extends InputStream {
         return skip;
     }
     
+    /**
+     * <p>Setter for the field <code>limit</code>.</p>
+     *
+     * @param limit a long.
+     */
     public void setLimit(long limit) {
         this.limit = limit;
     }

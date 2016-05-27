@@ -36,13 +36,14 @@ import com.nothome.delta.GDiffPatcher;
 import com.nothome.delta.PatchException;
 
 /**
- * This class applys a zip file containing deltas created with {@link JarDelta} using
+ * This class applys a zip file containing deltas created with {@link at.spardat.xma.xdelta.JarDelta} using
  * {@link com.nothome.delta.GDiffPatcher} on the files contained in the jar file.
  * The result of this operation is not binary equal to the original target zip file.
  * Timestamps of files and directories are not reconstructed. But the contents of all
  * files in the reconstructed target zip file are complely equal to their originals.
  *
  * @author s2877
+ * @version $Id: $Id
  */
 public class JarPatcher {
     /**
@@ -51,10 +52,10 @@ public class JarPatcher {
      * All other files listed in <code>META-INF/file.list</code> are copied from patch to output.
      *
      * @param source the original zip file, where the patches have to be applied
-     * @param patch a zip file created by {@link JarDelta#computeDelta(ZipFile, ZipFile, ZipOutputStream)}
+     * @param patch a zip file created by {@link at.spardat.xma.xdelta.JarDelta#computeDelta(ZipFile, ZipFile, ZipOutputStream)}
      *        containing the patches to apply
      * @param output the patched zip file to create
-     * @throws IOException if an error occures reading or writing any entry in a zip file
+     * @throws java.io.IOException if an error occures reading or writing any entry in a zip file
      */
     public void applyDelta(ZipFile source, ZipFile patch, ZipOutputStream output) throws IOException {
         try {
@@ -130,6 +131,9 @@ public class JarPatcher {
      * Main method to make {@link #applyDelta(ZipFile, ZipFile, ZipOutputStream)} available at
      * the command line.<br>
      * usage JarPatcher source patch output
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     * @throws java.io.IOException if any.
      */
     public static void main(String[] args) throws IOException {
         if (args.length != 3) {

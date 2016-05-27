@@ -34,8 +34,10 @@ import java.nio.ByteBuffer;
 import java.util.TreeMap;
 
 /**
+ * <p>MultifileSeekableSource class.</p>
  *
  * @author fm
+ * @version $Id: $Id
  */
 public class MultifileSeekableSource implements SeekableSource {
 
@@ -67,6 +69,7 @@ public class MultifileSeekableSource implements SeekableSource {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void seek(long pos) throws IOException {
         position = pos;
@@ -79,6 +82,7 @@ public class MultifileSeekableSource implements SeekableSource {
         source.seek(pos - currentStart);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int read(ByteBuffer bb) throws IOException {
         if (source == null) {
@@ -102,6 +106,7 @@ public class MultifileSeekableSource implements SeekableSource {
         return (int) (rr - remaining);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         if (filemap.isEmpty()) {

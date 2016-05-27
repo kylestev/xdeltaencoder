@@ -31,6 +31,9 @@ import java.nio.ByteBuffer;
 
 /**
  * Wraps a byte buffer as a source
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class ByteBufferSeekableSource implements SeekableSource {
     
@@ -39,6 +42,8 @@ public class ByteBufferSeekableSource implements SeekableSource {
     
     /**
      * Constructs a new ByteArraySeekableSource.
+     *
+     * @param source an array of byte.
      */
     public ByteBufferSeekableSource(byte[] source) {
         this(ByteBuffer.wrap(source));
@@ -46,6 +51,8 @@ public class ByteBufferSeekableSource implements SeekableSource {
     
     /**
      * Constructs a new ByteArraySeekableSource.
+     *
+     * @param bb a {@link java.nio.ByteBuffer} object.
      */
     public ByteBufferSeekableSource(ByteBuffer bb) {
         if (bb == null)
@@ -59,6 +66,7 @@ public class ByteBufferSeekableSource implements SeekableSource {
         }
     }
     
+    /** {@inheritDoc} */
     public void seek(long pos) throws IOException {
         //cur = bb.slice();
         if (pos > bb.limit())
@@ -66,6 +74,7 @@ public class ByteBufferSeekableSource implements SeekableSource {
         bb.position((int)pos);
     }
     
+    /** {@inheritDoc} */
     public int read(ByteBuffer dest) throws IOException {
         if (!bb.hasRemaining())
             return -1;
@@ -77,12 +86,19 @@ public class ByteBufferSeekableSource implements SeekableSource {
         return c;
     }
     
+    /**
+     * <p>close.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void close() throws IOException {
         bb = null;
         //cur = null;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a debug <code>String</code>.
      */
     @Override

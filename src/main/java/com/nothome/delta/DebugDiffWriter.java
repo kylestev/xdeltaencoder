@@ -30,6 +30,9 @@ import java.io.IOException;
 
 /**
  * For debugging patch generation.
+ *
+ * @author kylestev
+ * @version $Id: $Id
  */
 public class DebugDiffWriter implements DiffWriter {
     
@@ -40,12 +43,14 @@ public class DebugDiffWriter implements DiffWriter {
      */
     public DebugDiffWriter() {}
     
+    /** {@inheritDoc} */
     public void addCopy(long offset, int length) throws IOException {
         if (os.size() > 0)
             writeBuf();
         System.err.println("COPY off: " + offset + ", len: " + length);
     }
     
+    /** {@inheritDoc} */
     public void addData(byte b) throws IOException {
         os.write(b);
         writeBuf();
@@ -64,9 +69,19 @@ public class DebugDiffWriter implements DiffWriter {
         os.reset();
     }
     
+    /**
+     * <p>flush.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void flush() throws IOException {
         System.err.println("FLUSH");
     }
+    /**
+     * <p>close.</p>
+     *
+     * @throws java.io.IOException if any.
+     */
     public void close() throws IOException {
         System.err.println("CLOSE");
     }

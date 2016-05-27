@@ -5,3 +5,5 @@
 /nbproject/private
 /nbproject/private/private.xml
 /target/
+/.idea
+*.iml
